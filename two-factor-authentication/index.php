@@ -233,7 +233,7 @@ class TwoFactorAuthenticationPlugin extends AApiTwoFactorAuthPlugin
     {
         $sEmail = trim(stripcslashes($oServer->getParamValue('Email', null)));
         $sCode = intval(trim(stripcslashes($oServer->getParamValue('Code', null))));
-        $bSignMe = '1' === (string) $oServer->getParamValue('SignMe', '0');
+        $bSignMe = $oServer->getParamValue('SignMe') === 'true' ? true : false;
 
         try {
             $oApiUsers = /* @var $oApiUsers \CApiUsersManager */

@@ -123,7 +123,8 @@ VerifyTokenPopup.prototype.onVerifyClick = function ()
         oParameters = {
             'Action': 'VerifyToken',
             'Code': this.code,
-            'Email': this.email
+            'Email': this.email,
+            'SignMe' : this.oLoginViewModel.signMe()
         }
         ;
 
