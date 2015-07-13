@@ -10,7 +10,7 @@ include_once CApi::LibrariesPath() . 'PHPGangsta/GoogleAuthenticator.php';
 class TwoFactorAuthenticationPlugin extends AApiTwoFactorAuthPlugin
 {
     protected $logs = false;
-    protected $discrepancy = 1;
+    protected $discrepancy = 2;
 
     public static $setAccountIsLoggedIn = false;
 
