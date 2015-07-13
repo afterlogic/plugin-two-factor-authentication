@@ -31,3 +31,7 @@
 .password_popup {
     max-width: 370px;
 }
+
+.pin_code {
+    max-width: 270px;
+}
