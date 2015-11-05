@@ -1,6 +1,11 @@
 <?php
 
-/* -AFTERLOGIC LICENSE HEADER- */
+/*
+ * Copyright 2004-2015, AfterLogic Corp.
+ * Licensed under AGPLv3 license or AfterLogic license
+ * if commercial version of the product was purchased.
+ * See the LICENSE file for a full license statement.
+ */
 
 class_exists('CApi') or die();
 CApi::Inc('common.plugins.two-factor-auth');
@@ -234,8 +239,17 @@ class TwoFactorAuthenticationPlugin extends AApiTwoFactorAuthPlugin
         $sEmail = trim(stripcslashes($oServer->getParamValue('Email', null)));
         $sCode = intval(trim(stripcslashes($oServer->getParamValue('Code', null))));
         $bSignMe = $oServer->getParamValue('SignMe') === 'true' ? true : false;
+		$oSettings =& \CApi::GetSettings();
+		
+		if (\ELoginFormType::Login === (int) $oSettings->GetConf('WebMail/LoginFormType'))
+		{
+			$sIncLogin = trim(stripcslashes($oServer->getParamValue('Login', null)));
+			$sAtDomain = trim($oSettings->GetConf('WebMail/LoginAtDomainValue'));
+			$sEmail = \api_Utils::GetAccountNameFromEmail($sIncLogin).'@'.$sAtDomain;
+		}
 
-        try {
+        try
+		{
             $oApiUsers = /* @var $oApiUsers \CApiUsersManager */
                 \CApi::Manager('users');
             $oAccount = $oApiUsers->getAccountByEmail($sEmail);
@@ -309,7 +323,7 @@ class TwoFactorAuthenticationPlugin extends AApiTwoFactorAuthPlugin
         /* @var $oApiManager \CApiTwofactorauthManager */
         $oApiManager = $this->getTwofactorauthManager();
 
-        $oResult = $oApiManager->getAccountById($oAccount->IdAccount, ETwofaType::AUTH_TYPE_GOOGLE);
+        $oResult = $oAccount ? $oApiManager->getAccountById($oAccount->IdAccount, ETwofaType::AUTH_TYPE_GOOGLE) : null;
 
         if ($oResult)
         {
